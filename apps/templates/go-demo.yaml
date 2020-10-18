@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: go-demo
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: sandbox
+  source:
+    repoURL: {{ .Values.spec.source.repoURL }}
+    targetRevision: HEAD
+    path: go-demo
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: sandbox
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
